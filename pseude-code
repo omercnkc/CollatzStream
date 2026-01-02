@@ -1,0 +1,43 @@
+// --- BAŞLANGIÇ VE TOHUMLAMA ---
+FONKSİYON Başlat(KullanıcıSeed):
+    OS_Entropi = SistemdenYüksekÇözünürlüklüZamanVeDonanımVerisiAl()
+    State = Hash(OS_Entropi + Zaman() + KullanıcıSeed)
+    Counter = 0
+    DöngüyeGider(State, Counter)
+
+// --- ANA DÖNGÜ ---
+FONKSİYON Üret(State, Counter):
+    EĞER Counter >= EŞİK_DEĞERİ:  // Reseed kontrolü
+        State = State XOR Hash(SistemdenYeniEntropiAl())
+        Counter = 0
+
+    // 1. State'i Parçala
+    (s1, s2) = State.Böl(Sol_Yarı, Sağ_Yarı)
+
+    // 2. Collatz Mixer (Karıştırıcı)
+    // Her iki parça için Collatz adımlarını çalıştır ve bit dizilerini al
+    BitDizisi1 = CollatzIslemi(s1)
+    BitDizisi2 = CollatzIslemi(s2)
+
+    // 3. Bitleri Interleave Et (Serpiştirme)
+    // Örn: s1'in 1. biti, s2'nin 1. biti, s1'in 2. biti...
+    KarmaBitler = Interleave(BitDizisi1, BitDizisi2)
+
+    // 4. Çıktı ve State Güncelleme
+    ÇıktıHash = Hash(KarmaBitler)
+    YeniState = Hash(State + KarmaBitler) // State güncelleme
+
+    Counter = Counter + 1
+    DÖNDÜR (ÇıktıHash, YeniState, Counter)
+
+// --- COLLATZ KARAKTERİSTİĞİ ---
+FONKSİYON CollatzIslemi(n):
+    BitKatarı = ""
+    DÖNGÜ (n > 1 VE Adım < Sınır):
+        EĞER n çift:
+            n = n / 2
+            BitKatarı.Ekle("0")
+        DEĞİLSE:
+            n = 3n + 1
+            BitKatarı.Ekle("1")
+    DÖNDÜR BitKatarı
