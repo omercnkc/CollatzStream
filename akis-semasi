@@ -1,0 +1,56 @@
+[Başla]
+   |
+   v
+[OS Entropisi Al]
+   |
+   v
+[Zaman Bilgisi Al]
+   |
+   v
+[Opsiyonel Kullanıcı Seed'i Al]
+   |
+   v
+[Başlangıç State Oluştur]
+   |
+   v
+[Counter = 0]
+   |
+   v
+-----------------------
+|   RNG ÜRETİM DÖNGÜSÜ |
+-----------------------
+   |
+   v
+[State'i Parçala (s1, s2)]
+   |
+   v
+[s1 için Collatz Adımları]
+   |
+   v
+[s2 için Collatz Adımları]
+   |
+   v
+[Bitleri Interleave Et]
+   |
+   v
+[Collatz Mixer Çıktısı]
+   |
+   v
+[State Güncelle (Hash)]
+   |
+   v
+[Output Hash Oluştur]
+   |
+   v
+[Çıktıyı Ver]
+   |
+   v
+[Counter++]
+   |
+   v
+[Reseed Gerekli mi?] --Evet--> [OS Entropisi ile State Yenile]
+           |
+          Hayır
+           |
+           v
+        [Döngüye Devam]
